@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -52,8 +52,8 @@ public class Mathematikka extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onItemSpawn(ItemSpawnEvent event) {
-        Item item = event.getEntity();
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Item item = event.getItemDrop();
         ItemStack stack = item.getItemStack();
         if (stack.getType() == Material.WRITTEN_BOOK) {
             BookMeta book = (BookMeta) stack.getItemMeta();
