@@ -2,6 +2,7 @@ package io.github.fechan.mathematikka;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemDespawnEvent;
@@ -16,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class CheckItemOnGroundTask extends BukkitRunnable implements Listener {
     private final JavaPlugin plugin;
     private Item item;
+    private Player thrower;
 
     /**
      * Constructs the task with a given item to check for
@@ -29,12 +31,23 @@ public class CheckItemOnGroundTask extends BukkitRunnable implements Listener {
     }
 
     /**
+     * Constructs the task with a given item to check for
+     * @param plugin Bukkit plugin object
+     * @param item item to check if it's on the ground
+     * @param thrower player who threw the item
+     */
+    public CheckItemOnGroundTask(JavaPlugin plugin, Item item, Player thrower) {
+        this(plugin, item);
+        this.thrower = thrower;
+    }
+
+    /**
      * Runs the task
      */
     @Override
     public void run() {
         if (this.item.isOnGround()) {
-            ItemOnGroundEvent event = new ItemOnGroundEvent(this.item);
+            ItemOnGroundEvent event = new ItemOnGroundEvent(this.item, this.thrower);
             Bukkit.getServer().getPluginManager().callEvent(event);
             this.cancel();
         }

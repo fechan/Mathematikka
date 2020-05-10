@@ -1,6 +1,7 @@
 package io.github.fechan.mathematikka;
 
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -10,12 +11,16 @@ import org.bukkit.event.HandlerList;
 public class ItemOnGroundEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private Item item;
+    private Player thrower;
 
     /**
-     * Constructs the event with the item on the ground
+     * Constructs the event with the item that's on the ground and the thrower of the item, if any
+     * @param item item that hit the ground
+     * @param initiator (Nullable) player who threw the item
      */
-    public ItemOnGroundEvent(Item item) {
+    public ItemOnGroundEvent(Item item, Player thrower) {
         this.item = item;
+        this.thrower = thrower;
     }
 
     /**
@@ -24,6 +29,14 @@ public class ItemOnGroundEvent extends Event {
      */
     public Item getItem() {
         return item;
+    }
+
+    /**
+     * Gets the thrower of the item
+     * @return (Nullable) the thrower if thrown by a player
+     */
+    public Player getThrower() {
+        return thrower;
     }
 
     @Override

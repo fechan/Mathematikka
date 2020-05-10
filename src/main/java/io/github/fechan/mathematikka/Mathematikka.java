@@ -4,9 +4,9 @@ import java.util.logging.Logger;
 
 import com.wolfram.jlink.*;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -58,7 +58,7 @@ public class Mathematikka extends JavaPlugin implements Listener {
         if (stack.getType() == Material.WRITTEN_BOOK) {
             BookMeta book = (BookMeta) stack.getItemMeta();
             if (book.getTitle().equals("WolframAlpha")) {
-                new CheckItemOnGroundTask(this, item).runTaskTimer(this, 0, 1);
+                new CheckItemOnGroundTask(this, item, event.getPlayer()).runTaskTimer(this, 0, 1);
             }
         }
     }
@@ -82,6 +82,11 @@ public class Mathematikka extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onMathematicaQueryComplete(MathematicaQueryCompletedEvent event) {
-        Bukkit.broadcastMessage(event.getResult());
+        Player initiator = event.getInitator();
+        if (initiator != null) {
+            event.getInitator().sendMessage(event.getResult());
+        } else {
+            console.info(event.getResult());
+        }
     }
 }
