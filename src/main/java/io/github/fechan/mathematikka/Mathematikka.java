@@ -2,7 +2,9 @@ package io.github.fechan.mathematikka;
 
 import java.util.logging.Logger;
 
-import com.wolfram.jlink.*;
+import com.wolfram.jlink.KernelLink;
+import com.wolfram.jlink.MathLinkException;
+import com.wolfram.jlink.MathLinkFactory;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
