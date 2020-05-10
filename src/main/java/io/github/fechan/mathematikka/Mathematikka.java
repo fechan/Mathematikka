@@ -99,7 +99,7 @@ public class Mathematikka extends JavaPlugin implements Listener {
                     new Expr[]{
                         new Expr(Expr.STRING, query), new Expr("ShortAnswer")
                     });
-                new QueryMathematicaTask(this.mathematica, expr, event.getThrower())
+                new QueryMathematicaTask(this.mathematica, expr, "String", event.getThrower())
                     .runTaskAsynchronously(this);
             }
         }
@@ -111,7 +111,7 @@ public class Mathematikka extends JavaPlugin implements Listener {
      * @param event
      */
     @EventHandler
-    public void onMathematicaQueryComplete(MathematicaQueryCompletedEvent event) {
+    public void onMathematicaReturnedString(MathematicaReturnedStringEvent event) {
         Player initiator = event.getInitator();
         if (initiator != null) {
             event.getInitator().sendMessage(event.getResult());

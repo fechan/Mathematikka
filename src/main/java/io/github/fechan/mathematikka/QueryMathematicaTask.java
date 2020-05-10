@@ -15,25 +15,30 @@ public class QueryMathematicaTask extends BukkitRunnable{
     private KernelLink mathematica;
     private Expr query;
     private Player initiator;
+    private String resultFormat;
 
     /**
      * Constructs a Mathematica query task, given a mathematica kernel and the query to evaluate 
      * @param mathematica kernel that will evaluate the query
      * @param query query to evaluate
+     * @param resultFormat the format the query result should be in ("String" or "Image") 
      */
-    public QueryMathematicaTask(KernelLink mathematica, Expr query) {
+    public QueryMathematicaTask(KernelLink mathematica, Expr query, String resultFormat) {
         this.mathematica = mathematica;
         this.query = query;
+        this.resultFormat = resultFormat;
     }
-
+    
     /**
      * Constructs a Mathematica query task, given a kernel, query, and the player who initiated it
      * @param mathematica kernel that will evaluate the query
      * @param query query to evaluate
+     * @param resultFormat the format the query result should be in ("String" or "Image") 
      * @param initiator player who initiated the query
      */
-    public QueryMathematicaTask(KernelLink mathematica, Expr query, Player initiator) {
-        this(mathematica, query);
+    public QueryMathematicaTask(KernelLink mathematica, Expr query, String resultFormat,
+        Player initiator) {
+        this(mathematica, query, resultFormat);
         this.initiator = initiator;
     }
 
@@ -42,7 +47,14 @@ public class QueryMathematicaTask extends BukkitRunnable{
      */
     @Override
     public void run() {
-        String result = mathematica.evaluateToOutputForm(query, 0);
-        Bukkit.getPluginManager().callEvent(new MathematicaQueryCompletedEvent(result, initiator));
+        if (resultFormat.equals("String")) {
+            String result = mathematica.evaluateToOutputForm(query, 0);
+            Bukkit.getPluginManager()
+                .callEvent(new MathematicaReturnedStringEvent(result, initiator));
+        } else {
+            byte[] result = mathematica.evaluateToImage(query, 0, 0);
+            Bukkit.getPluginManager()
+                .callEvent(new MathematicaReturnedImageEvent(result, initiator));
+        }
     }
 }

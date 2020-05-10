@@ -7,9 +7,8 @@ import org.bukkit.event.HandlerList;
 /**
  * Event called when a Mathematica query has completed
  */
-public class MathematicaQueryCompletedEvent extends Event {
+public abstract class MathematicaQueryCompletedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
-    private String result;
     private Player initator;
 
     /**
@@ -17,18 +16,9 @@ public class MathematicaQueryCompletedEvent extends Event {
      * @param result the query result
      * @param initiator (Nullable) the player who initiated the query
      */
-    public MathematicaQueryCompletedEvent(String result, Player initiator) {
+    public MathematicaQueryCompletedEvent(Player initiator) {
         super(true);
-        this.result = result;
         this.initator = initiator;
-    }
-
-    /**
-     * Gets the Mathematica result
-     * @return Mathematica result
-     */
-    public String getResult() {
-        return this.result;
     }
 
     /**
