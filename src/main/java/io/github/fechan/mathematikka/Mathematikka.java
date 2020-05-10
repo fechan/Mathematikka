@@ -74,7 +74,7 @@ public class Mathematikka extends JavaPlugin implements Listener {
                     query += book.getPage(i);
                 }
                 query = "WolframAlpha[\"" + query + "\", \"ShortAnswer\"]";
-                new QueryMathematicaTask(this.mathematica, query)
+                new QueryMathematicaTask(this.mathematica, query, event.getThrower())
                     .runTaskAsynchronously(this);
             }
         }
