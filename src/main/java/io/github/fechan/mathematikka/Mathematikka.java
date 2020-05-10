@@ -20,6 +20,10 @@ public class Mathematikka extends JavaPlugin implements Listener {
     KernelLink mathematica;
     Logger console;
 
+    /**
+     * Called when the plugin is enabled. Creates a Mathematica kernel link and tests it.
+     * It disables the plugin if it can't establish the link.
+     */
     @Override
     public void onEnable() {
         console = getLogger();
@@ -46,6 +50,9 @@ public class Mathematikka extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * Called when the plugin is disabled. Closes the Mathematica kernel link if it exists.
+     */
     @Override
     public void onDisable() {
         if (mathematica != null) {
@@ -53,6 +60,11 @@ public class Mathematikka extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * When the player drops an item and it's a written book titled "WolframAlpha," it will query
+     * WolframAlpha with its contents when it hits the ground
+     * @param event the event triggering this
+     */
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         Item item = event.getItemDrop();
@@ -65,6 +77,11 @@ public class Mathematikka extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * When an item that is tracked with the CheckItemOnGroundTask is on the ground, this queries
+     * WolframAlpha with the book's contents if it's titled "WolframAlpha"
+     * @param event the event triggering this
+     */
     @EventHandler
     public void onTrackedItemOnGround(ItemOnGroundEvent event) {
         ItemStack stack = event.getItem().getItemStack();
@@ -83,6 +100,11 @@ public class Mathematikka extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * When a Mathematica query completes, if the query was initiated by a player, tells them the
+     * query result. Otherwise it gets piped to the server console.
+     * @param event
+     */
     @EventHandler
     public void onMathematicaQueryComplete(MathematicaQueryCompletedEvent event) {
         Player initiator = event.getInitator();
