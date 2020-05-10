@@ -1,5 +1,6 @@
 package io.github.fechan.mathematikka;
 
+import com.wolfram.jlink.Expr;
 import com.wolfram.jlink.KernelLink;
 
 import org.bukkit.Bukkit;
@@ -12,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class QueryMathematicaTask extends BukkitRunnable{
     private KernelLink mathematica;
-    private String query;
+    private Expr query;
     private Player initiator;
 
     /**
@@ -20,7 +21,7 @@ public class QueryMathematicaTask extends BukkitRunnable{
      * @param mathematica kernel that will evaluate the query
      * @param query query to evaluate
      */
-    public QueryMathematicaTask(KernelLink mathematica, String query) {
+    public QueryMathematicaTask(KernelLink mathematica, Expr query) {
         this.mathematica = mathematica;
         this.query = query;
     }
@@ -31,7 +32,7 @@ public class QueryMathematicaTask extends BukkitRunnable{
      * @param query query to evaluate
      * @param initiator player who initiated the query
      */
-    public QueryMathematicaTask(KernelLink mathematica, String query, Player initiator) {
+    public QueryMathematicaTask(KernelLink mathematica, Expr query, Player initiator) {
         this(mathematica, query);
         this.initiator = initiator;
     }

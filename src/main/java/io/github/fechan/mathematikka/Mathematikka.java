@@ -2,6 +2,7 @@ package io.github.fechan.mathematikka;
 
 import java.util.logging.Logger;
 
+import com.wolfram.jlink.Expr;
 import com.wolfram.jlink.KernelLink;
 import com.wolfram.jlink.MathLinkException;
 import com.wolfram.jlink.MathLinkFactory;
@@ -92,9 +93,13 @@ public class Mathematikka extends JavaPlugin implements Listener {
                 for (int i = 1; i <= book.getPageCount(); i++) {
                     query += book.getPage(i);
                 }
-                query = Utils.sanitizeQuery(query);
-                query = "WolframAlpha[\"" + query + "\", \"ShortAnswer\"]";
-                new QueryMathematicaTask(this.mathematica, query, event.getThrower())
+                // equivalent to a type-safe version of WolframAlpha[query, "ShortAnswer"]
+                Expr expr = new Expr(
+                    new Expr(Expr.SYMBOL, "WolframAlpha"),
+                    new Expr[]{
+                        new Expr(Expr.STRING, query), new Expr("ShortAnswer")
+                    });
+                new QueryMathematicaTask(this.mathematica, expr, event.getThrower())
                     .runTaskAsynchronously(this);
             }
         }
