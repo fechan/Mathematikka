@@ -26,16 +26,14 @@ public abstract class MathematicaQueryCompletedEvent extends Event {
     }
 
     /**
-     * Get the player who initiated the query
-     * @return (Nullable) the initator of the query
+     * @return (Nullable) the initator of the Mathematica query
      */
     public Player getInitator() {
         return initator;
     }
 
     /**
-     * Get where the query was initiated
-     * @return (Nullable) the location
+     * @return (Nullable) the location where the Mathematica query was initated
      */
     public Location getLocation() {
         return location;

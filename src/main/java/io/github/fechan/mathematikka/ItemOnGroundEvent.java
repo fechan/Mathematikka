@@ -28,7 +28,6 @@ public class ItemOnGroundEvent extends Event {
     }
 
     /**
-     * Gets the item on the ground
      * @return item on the ground
      */
     public Item getItem() {
@@ -36,7 +35,6 @@ public class ItemOnGroundEvent extends Event {
     }
 
     /**
-     * Gets the location of the item
      * @return the location of the item
      */
     public Location getLocation() {

@@ -21,8 +21,7 @@ public class MathematicaReturnedImageEvent extends MathematicaQueryCompletedEven
     }
     
     /**
-     * Gets the Mathematica query result
-     * @return the result of the query
+     * @return the result of the Mathematica query
      */
     public byte[] getResult() {
         return result;

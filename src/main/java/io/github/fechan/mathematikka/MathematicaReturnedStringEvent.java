@@ -21,8 +21,7 @@ public class MathematicaReturnedStringEvent extends MathematicaQueryCompletedEve
     }
     
     /**
-     * Gets the Mathematica query result
-     * @return the result of the query
+     * @return the result of the Mathematica query
      */
     public String getResult() {
         return result;
