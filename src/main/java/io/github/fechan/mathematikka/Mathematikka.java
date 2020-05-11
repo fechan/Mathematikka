@@ -1,6 +1,11 @@
 package io.github.fechan.mathematikka;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 import com.wolfram.jlink.Expr;
 import com.wolfram.jlink.KernelLink;
@@ -9,7 +14,6 @@ import com.wolfram.jlink.MathLinkFactory;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -99,7 +103,7 @@ public class Mathematikka extends JavaPlugin implements Listener {
                 Expr expr = new Expr(
                     new Expr(Expr.SYMBOL, "WolframAlpha"),
                     new Expr[]{
-                        new Expr(Expr.STRING, query), new Expr("ShortAnswer")
+                        new Expr(Expr.STRING, query), new Expr("Image")
                     });
                 new QueryMathematicaTask(this.mathematica, expr, "Image", event.getThrower(),
                     event.getLocation())
@@ -131,9 +135,15 @@ public class Mathematikka extends JavaPlugin implements Listener {
     @EventHandler
     public void onMathematicaReturnedImage(MathematicaReturnedImageEvent event) {
         Location bottomSouthWestCorner = event.getLocation();
-        World world = event.getLocation().getWorld();
         /* since this listener gets called by an event spawned by an async task, the listener is
         also async and  we have to schedule building on the main thread */
-        new BuildMapWallTask(bottomSouthWestCorner).runTask(this);
+        try {
+            BufferedImage img = ImageIO.read(new ByteArrayInputStream(event.getResult()));
+            BufferedImage[][] tiles = new BufferedImage[1][1];
+            tiles[0][0] = img;
+            new BuildMapWallTask(bottomSouthWestCorner, tiles).runTask(this);
+        } catch (IOException e) {
+            console.info("Error while converting byte array to image!");
+        }
     }
 }
