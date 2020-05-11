@@ -22,12 +22,20 @@ public class BuildMapWallTask extends BukkitRunnable {
     private World world;
     private BufferedImage[][] tiles;
 
+    /**
+     * Constructs a wall builder task that builds a map wall showing an image
+     * @param bottomSouthWestCorner the location of the bottom southwest corner to start building
+     * @param tiles the 2D array of image tiles, arranged [x][y], with (x=0,y=0) at the top right
+     */
     public BuildMapWallTask(Location bottomSouthWestCorner, BufferedImage[][] tiles) {
         this.bottomSouthWestCorner = bottomSouthWestCorner;
         this.world = bottomSouthWestCorner.getWorld();
         this.tiles = tiles;
     }
 
+    /**
+     * Builds a wall of item frames with maps that show the provided image tiles
+     */
     @Override
     public void run() {
         this.world.getBlockAt(bottomSouthWestCorner).setType(Material.DIAMOND_BLOCK);
