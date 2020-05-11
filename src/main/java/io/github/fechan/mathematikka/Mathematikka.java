@@ -7,7 +7,9 @@ import com.wolfram.jlink.KernelLink;
 import com.wolfram.jlink.MathLinkException;
 import com.wolfram.jlink.MathLinkFactory;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -99,16 +101,17 @@ public class Mathematikka extends JavaPlugin implements Listener {
                     new Expr[]{
                         new Expr(Expr.STRING, query), new Expr("ShortAnswer")
                     });
-                new QueryMathematicaTask(this.mathematica, expr, "String", event.getThrower())
+                new QueryMathematicaTask(this.mathematica, expr, "Image", event.getThrower(),
+                    event.getLocation())
                     .runTaskAsynchronously(this);
             }
         }
     }
 
     /**
-     * When a Mathematica query completes, if the query was initiated by a player, tells them the
-     * query result. Otherwise it gets piped to the server console.
-     * @param event
+     * When a Mathematica query returns a String, if the query was initiated by a player, 
+     * tells them the query result. Otherwise it gets piped to the server console.
+     * @param event the event triggering this
      */
     @EventHandler
     public void onMathematicaReturnedString(MathematicaReturnedStringEvent event) {
@@ -118,5 +121,19 @@ public class Mathematikka extends JavaPlugin implements Listener {
         } else {
             console.info(event.getResult());
         }
+    }
+
+    /**
+     * When a Mathematica query returns a byte[] GIF image, if the query was initiated by a player,
+     * display the image in a series of maps.
+     * @param event the event triggering this
+     */
+    @EventHandler
+    public void onMathematicaReturnedImage(MathematicaReturnedImageEvent event) {
+        Location bottomSouthWestCorner = event.getLocation();
+        World world = event.getLocation().getWorld();
+        /* since this listener gets called by an event spawned by an async task, the listener is
+        also async and  we have to schedule building on the main thread */
+        new BuildMapWallTask(bottomSouthWestCorner).runTask(this);
     }
 }

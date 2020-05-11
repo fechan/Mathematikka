@@ -1,5 +1,6 @@
 package io.github.fechan.mathematikka;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -10,15 +11,18 @@ import org.bukkit.event.HandlerList;
 public abstract class MathematicaQueryCompletedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private Player initator;
+    private Location location;
 
     /**
      * Constructs the event with the Mathematica result
      * @param result the query result
      * @param initiator (Nullable) the player who initiated the query
+     * @param location (Nullable) where the query was initiated
      */
-    public MathematicaQueryCompletedEvent(Player initiator) {
+    public MathematicaQueryCompletedEvent(Player initiator, Location location) {
         super(true);
         this.initator = initiator;
+        this.location = location;
     }
 
     /**
@@ -27,6 +31,14 @@ public abstract class MathematicaQueryCompletedEvent extends Event {
      */
     public Player getInitator() {
         return initator;
+    }
+
+    /**
+     * Get where the query was initiated
+     * @return (Nullable) the location
+     */
+    public Location getLocation() {
+        return location;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package io.github.fechan.mathematikka;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -11,15 +12,18 @@ import org.bukkit.event.HandlerList;
 public class ItemOnGroundEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private Item item;
+    private Location location;
     private Player thrower;
 
     /**
      * Constructs the event with the item that's on the ground and the thrower of the item, if any
      * @param item item that hit the ground
+     * @param location location of the item
      * @param initiator (Nullable) player who threw the item
      */
-    public ItemOnGroundEvent(Item item, Player thrower) {
+    public ItemOnGroundEvent(Item item, Location location, Player thrower) {
         this.item = item;
+        this.location = location;
         this.thrower = thrower;
     }
 
@@ -29,6 +33,14 @@ public class ItemOnGroundEvent extends Event {
      */
     public Item getItem() {
         return item;
+    }
+
+    /**
+     * Gets the location of the item
+     * @return the location of the item
+     */
+    public Location getLocation() {
+        return location;
     }
 
     /**

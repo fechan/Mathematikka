@@ -1,5 +1,6 @@
 package io.github.fechan.mathematikka;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -12,9 +13,10 @@ public class MathematicaReturnedImageEvent extends MathematicaQueryCompletedEven
      * Constructs the event with the Mathematica result and the player who initiated the query
      * @param result result of the Mathematica query
      * @param initiator who initiated the query
+     * @param location where the query was initiated
      */
-    public MathematicaReturnedImageEvent(byte[] result, Player initiator) {
-        super(initiator);
+    public MathematicaReturnedImageEvent(byte[] result, Player initiator, Location location) {
+        super(initiator, location);
         this.result = result;
     }
     

@@ -47,7 +47,8 @@ public class CheckItemOnGroundTask extends BukkitRunnable implements Listener {
     @Override
     public void run() {
         if (this.item.isOnGround()) {
-            ItemOnGroundEvent event = new ItemOnGroundEvent(this.item, this.thrower);
+            ItemOnGroundEvent event = new ItemOnGroundEvent(this.item, this.item.getLocation(),
+                this.thrower);
             Bukkit.getServer().getPluginManager().callEvent(event);
             this.cancel();
         }
