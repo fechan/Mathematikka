@@ -18,18 +18,18 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Builds a map wall from a 2D array of image tiles
  */
 public class BuildMapWallTask extends BukkitRunnable {
-    private Location bottomSouthWestCorner;
+    private Location bottomNorthWestCorner;
     private World world;
     private BufferedImage[][] tiles;
 
     /**
      * Constructs a wall builder task that builds a map wall showing an image
-     * @param bottomSouthWestCorner the location of the bottom southwest corner to start building
+     * @param bottomNorthWestCorner the location of the bottom northwest corner to start building
      * @param tiles the 2D array of image tiles, arranged [x][y], with (x=0,y=0) at the top right
      */
-    public BuildMapWallTask(Location bottomSouthWestCorner, BufferedImage[][] tiles) {
-        this.bottomSouthWestCorner = bottomSouthWestCorner;
-        this.world = bottomSouthWestCorner.getWorld();
+    public BuildMapWallTask(Location bottomNorthWestCorner, BufferedImage[][] tiles) {
+        this.bottomNorthWestCorner = bottomNorthWestCorner;
+        this.world = bottomNorthWestCorner.getWorld();
         this.tiles = tiles;
     }
 
@@ -38,11 +38,16 @@ public class BuildMapWallTask extends BukkitRunnable {
      */
     @Override
     public void run() {
-        this.world.getBlockAt(bottomSouthWestCorner).setType(Material.DIAMOND_BLOCK);
-
-        ItemFrame frame = (ItemFrame) this.world.spawnEntity(bottomSouthWestCorner.add(0, 0, 1), EntityType.ITEM_FRAME);
-        frame.setItem(createMap(this.tiles[0][0]));
-        
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[0].length; y++) {
+                Location backboardLocation = bottomNorthWestCorner.clone().add(x, y, 0);
+                this.world.getBlockAt(backboardLocation).setType(Material.OAK_PLANKS);
+                ItemFrame frame = (ItemFrame) this.world.spawnEntity(
+                    backboardLocation.add(0, 0, 1), EntityType.ITEM_FRAME
+                    );
+                frame.setItem(createMap(this.tiles[x][y]));
+            }
+        }
     }
 
     /**

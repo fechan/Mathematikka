@@ -134,14 +134,14 @@ public class Mathematikka extends JavaPlugin implements Listener {
      */
     @EventHandler
     public void onMathematicaReturnedImage(MathematicaReturnedImageEvent event) {
-        Location bottomSouthWestCorner = event.getLocation();
+        Location bottomNorthWestCorner = event.getLocation();
         /* since this listener gets called by an event spawned by an async task, the listener is
         also async and  we have to schedule building on the main thread */
         try {
             BufferedImage img = ImageIO.read(new ByteArrayInputStream(event.getResult()));
-            int horizontalOverflow = img.getWidth() % 128 == 0 ? 0 : 1;
+            int horizontalOverflow = img.getWidth() % 128;
             int horizontalTiles = (img.getWidth() / 128) + (horizontalOverflow > 0 ? 1 : 0);
-            int verticalOverflow = img.getHeight() % 128 == 0 ? 0 : 1;
+            int verticalOverflow = img.getHeight() % 128;
             int verticalTiles = (img.getHeight() / 128) + (verticalOverflow > 0 ? 1 : 0);
             BufferedImage[][] tiles = new BufferedImage[horizontalTiles][verticalTiles];
             for (int tileX = 0; tileX < horizontalTiles; tileX++) {
@@ -150,10 +150,10 @@ public class Mathematikka extends JavaPlugin implements Listener {
                 for (int tileY = 0; tileY < verticalTiles; tileY++) {
                     int height = (tileY + 1 == verticalTiles && verticalOverflow > 0) ?
                         verticalOverflow : 128;
-                    tiles[tileX][tileY] = img.getSubimage(tileX * 128, tileY * 128, width, height);
+                    tiles[tileX][verticalTiles - 1 - tileY] = img.getSubimage(tileX * 128, tileY * 128, width, height);
                 }
             }
-            new BuildMapWallTask(bottomSouthWestCorner, tiles).runTask(this);
+            new BuildMapWallTask(bottomNorthWestCorner, tiles).runTask(this);
         } catch (IOException e) {
             console.info("Error while converting byte array to image!");
         }
