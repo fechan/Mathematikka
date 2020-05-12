@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
@@ -42,9 +43,12 @@ public class BuildMapWallTask extends BukkitRunnable {
             for (int y = 0; y < tiles[0].length; y++) {
                 Location backboardLocation = bottomNorthWestCorner.clone().add(x, y, 0);
                 this.world.getBlockAt(backboardLocation).setType(Material.OAK_PLANKS);
+                Location itemFrameLocation = backboardLocation.add(0, 0, 1);
+                this.world.getBlockAt(backboardLocation).setType(Material.AIR);
                 ItemFrame frame = (ItemFrame) this.world.spawnEntity(
-                    backboardLocation.add(0, 0, 1), EntityType.ITEM_FRAME
-                    );
+                   itemFrameLocation, EntityType.ITEM_FRAME
+                );
+                frame.setFacingDirection(BlockFace.SOUTH);
                 frame.setItem(createMap(this.tiles[x][y]));
             }
         }
