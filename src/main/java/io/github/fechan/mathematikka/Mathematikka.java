@@ -139,8 +139,20 @@ public class Mathematikka extends JavaPlugin implements Listener {
         also async and  we have to schedule building on the main thread */
         try {
             BufferedImage img = ImageIO.read(new ByteArrayInputStream(event.getResult()));
-            BufferedImage[][] tiles = new BufferedImage[1][1];
-            tiles[0][0] = img;
+            int horizontalOverflow = img.getWidth() % 128 == 0 ? 0 : 1;
+            int horizontalTiles = (img.getWidth() / 128) + (horizontalOverflow > 0 ? 1 : 0);
+            int verticalOverflow = img.getHeight() % 128 == 0 ? 0 : 1;
+            int verticalTiles = (img.getHeight() / 128) + (verticalOverflow > 0 ? 1 : 0);
+            BufferedImage[][] tiles = new BufferedImage[horizontalTiles][verticalTiles];
+            for (int tileX = 0; tileX < horizontalTiles; tileX++) {
+                int width = (tileX + 1 == horizontalTiles && horizontalOverflow > 0) ? 
+                    horizontalOverflow : 128;
+                for (int tileY = 0; tileY < verticalTiles; tileY++) {
+                    int height = (tileY + 1 == verticalTiles && verticalOverflow > 0) ?
+                        verticalOverflow : 128;
+                    tiles[tileX][tileY] = img.getSubimage(tileX * 128, tileY * 128, width, height);
+                }
+            }
             new BuildMapWallTask(bottomSouthWestCorner, tiles).runTask(this);
         } catch (IOException e) {
             console.info("Error while converting byte array to image!");
