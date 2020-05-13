@@ -11,7 +11,7 @@ Setup
 --
 **You need to have Mathematica installed in order for this plugin to work!**
 
-Put the plugin's jar file in the server's plugin directory. If it doesn't exist already, also create a `lib` folder in the plugin directory. Copy the file `JLink.jar` and `SystemFiles` from `${MATHEMATICA_INSTALL_DIRECTORY}/SystemFiles/Links/JLink/` into the `lib` folder. Then start the server.
+Put the [plugin's jar file](https://github.com/fechan/Mathematikka/releases) in the server's plugin directory. If it doesn't exist already, also create a `lib` folder in the plugin directory. Copy the file `JLink.jar` and `SystemFiles` from `${MATHEMATICA_INSTALL_DIRECTORY}/SystemFiles/Links/JLink/` into the `lib` folder. Then start the server.
 
 Security considerations
 --
