@@ -1,5 +1,5 @@
 # Mathematikka
-Bukkit plugin that calls Mathematica to query WolframAlpha from in-game.
+Bukkit plugin that calls Mathematica to query WolframAlpha from in-game. A more in-depth explanation of how it works is [here](https://fechan.github.io/blog/Mathematikka-WolframAlpha-in-Minecraft/).
 
 Features
 --
