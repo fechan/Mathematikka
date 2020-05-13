@@ -15,4 +15,5 @@ Put the [plugin's jar file](https://github.com/fechan/Mathematikka/releases) in 
 
 Security considerations
 --
-Version 1.0-SNAPSHOT had potentially unsafe behavior which has been fixed in 1.1-SNAPSHOT and above. I **highly reccommend** you not use 1.0-SNAPSHOT. The problem is described as such: The plugin is basically building a Wolfram language string and giving it to the Mathematica kernel to evaluate. This is potentially unsafe, since players can potentially write whatever. If they write something that escapes a string in Mathematica, they can perform a Mathematica injection, which is like a SQL injection but with Mathematica. Even with the input sanitation, I would only use this plugin among people who you *trust absolutely*.
+Version 1.0-SNAPSHOT had potentially unsafe behavior which has been fixed in 1.1-SNAPSHOT and above. I **highly reccommend** you not use 1.0-SNAPSHOT. The problem is described as such:
+>The plugin is basically building a Wolfram language string and giving it to the Mathematica kernel to evaluate. This is potentially unsafe, since players can potentially write whatever. If they write something that escapes a string in Mathematica, they can perform a Mathematica injection, which is like a SQL injection but with Mathematica. Even with the input sanitation, I would only use this plugin among people who you *trust absolutely*.
